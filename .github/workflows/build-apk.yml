@@ -25,38 +25,77 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Prepare Web Assets & Capacitor Android Project
+      - name: Prepare Web Assets & Project
         run: |
           mkdir -p www
-          # Repo kökündeki HTML dosyasını www/index.html olarak kopyala
-          if [ -f "YKS_Pro_Tracker.html" ]; then
-            cp "YKS_Pro_Tracker.html" www/index.html
-          elif [ -f "index.html" ]; then
+          if [ -f "index.html" ]; then
             cp "index.html" www/index.html
+          elif [ -f "YKS_Pro_Tracker.html" ]; then
+            cp "YKS_Pro_Tracker.html" www/index.html
           else
             FIRST_HTML=$(ls *.html 2>/dev/null | head -n 1)
             if [ -n "$FIRST_HTML" ]; then
               cp "$FIRST_HTML" www/index.html
             else
-              echo "HATA: Depoda hiçbir HTML dosyası bulunamadı! Lütfen index.html dosyanızı repoya yükleyin."
+              echo "HATA: Depoda HTML bulunamadı!"
               exit 1
             fi
           fi
 
-          # Projeyi başlat ve Capacitor paketlerini kur
           npm init -y
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
 
-          # Capacitor Android platformunu oluştur
           npx cap init "YKS Pro Tracker" "com.yksprotracker.app" --web-dir www
           npx cap add android
 
-          # Gerekli bildirim ve titreşim izinlerini ekle
+          # İkonu hazırla (Depoda yoksa index.html içinden otomatik çıkartır)
+          if [ -f "app_icon.png" ]; then
+            cp "app_icon.png" icon_source.png
+          elif [ -f "icon.png" ]; then
+            cp "icon.png" icon_source.png
+          else
+            python3 -c "import re, base64; c = open('www/index.html').read(); m = re.search(r'data:image/png;base64,([A-Za-z0-9+/=]+)', c); open('icon_source.png', 'wb').write(base64.b64decode(m.group(1))) if m else None"
+          fi
+
+          if [ -f "icon_source.png" ]; then
+            echo "İkon tüm Android klasörlerine uygulanıyor..."
+            find android/app/src/main/res/ -name "ic_launcher*.png" -exec cp -f "icon_source.png" {} \;
+            find android/app/src/main/res/ -name "ic_launcher_round.png" -exec cp -f "icon_source.png" {} \;
+            find android/app/src/main/res/ -name "ic_launcher_foreground.png" -exec cp -f "icon_source.png" {} \;
+          fi
+
           MANIFEST="android/app/src/main/AndroidManifest.xml"
           if [ -f "$MANIFEST" ]; then
             if ! grep -q "POST_NOTIFICATIONS" "$MANIFEST"; then
               sed -i '/<application/i \    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.VIBRATE" />\n    <uses-permission android:name="android.permission.WAKE_LOCK" />' "$MANIFEST"
             fi
+            sed -i 's/android:allowBackup="false"/android:allowBackup="true"/g' "$MANIFEST"
+          fi
+
+          MAIN_ACTIVITY="android/app/src/main/java/com/yksprotracker/app/MainActivity.java"
+          if [ -f "$MAIN_ACTIVITY" ]; then
+            cat << 'JAVA' > "$MAIN_ACTIVITY"
+          package com.yksprotracker.app;
+
+          import android.os.Bundle;
+          import android.webkit.WebSettings;
+          import com.getcapacitor.BridgeActivity;
+
+          public class MainActivity extends BridgeActivity {
+              @Override
+              public void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+                  try {
+                      if (this.getBridge() != null && this.getBridge().getWebView() != null) {
+                          WebSettings settings = this.getBridge().getWebView().getSettings();
+                          settings.setDomStorageEnabled(true);
+                          settings.setDatabaseEnabled(true);
+                      }
+                  } catch (Exception ignored) {}
+              }
+          }
+          JAVA
+            sed -i 's/^          //g' "$MAIN_ACTIVITY"
           fi
 
       - name: Build Android Debug APK with Gradle
