@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="tr" class="dark" data-theme="night">
 <head>
@@ -33,53 +34,83 @@
     <style>
         :root {
             --bg-main: #090D16;
+            --bg-sidebar: #0B111E;
+            --bg-sidebar-card: rgba(15, 23, 42, 0.95);
+            --bg-sidebar-sub: #030712;
             --bg-card: #111827;
             --bg-elevated: #1E293B;
             --brand-400: #818CF8;
             --brand-500: #6366F1;
             --brand-600: #4F46E5;
             --border-card: rgba(255, 255, 255, 0.08);
+            --border-sidebar: rgba(30, 41, 59, 0.8);
             --header-bg: rgba(9, 13, 22, 0.92);
+            --sidebar-countdown-bg: linear-gradient(135deg, rgba(49, 46, 129, 0.85), rgba(15, 23, 42, 0.95));
+            --sidebar-countdown-border: rgba(99, 102, 241, 0.3);
         }
         [data-theme="amoled"] {
             --bg-main: #000000;
+            --bg-sidebar: #050505;
+            --bg-sidebar-card: #0D0D0D;
+            --bg-sidebar-sub: #000000;
             --bg-card: #0A0A0A;
             --bg-elevated: #171717;
             --brand-400: #60A5FA;
             --brand-500: #3B82F6;
             --brand-600: #2563EB;
             --border-card: rgba(255, 255, 255, 0.12);
+            --border-sidebar: rgba(255, 255, 255, 0.1);
             --header-bg: rgba(0, 0, 0, 0.95);
+            --sidebar-countdown-bg: linear-gradient(135deg, #111827, #000000);
+            --sidebar-countdown-border: rgba(59, 130, 246, 0.35);
         }
         [data-theme="emerald"] {
             --bg-main: #061814;
+            --bg-sidebar: #04120F;
+            --bg-sidebar-card: #08221B;
+            --bg-sidebar-sub: #020A08;
             --bg-card: #0A241E;
             --bg-elevated: #11362D;
             --brand-400: #34D399;
             --brand-500: #10B981;
             --brand-600: #059669;
             --border-card: rgba(52, 211, 153, 0.15);
-            --header-bg: rgba(6, 24, 20, 0.92);
+            --border-sidebar: rgba(16, 185, 129, 0.2);
+            --header-bg: rgba(4, 18, 15, 0.94);
+            --sidebar-countdown-bg: linear-gradient(135deg, rgba(6, 78, 59, 0.85), rgba(4, 18, 15, 0.95));
+            --sidebar-countdown-border: rgba(52, 211, 153, 0.3);
         }
         [data-theme="purple"] {
             --bg-main: #0D081E;
+            --bg-sidebar: #090516;
+            --bg-sidebar-card: #150B2D;
+            --bg-sidebar-sub: #05020D;
             --bg-card: #170F33;
             --bg-elevated: #24184F;
             --brand-400: #C084FC;
             --brand-500: #A855F7;
             --brand-600: #9333EA;
             --border-card: rgba(192, 132, 252, 0.15);
-            --header-bg: rgba(13, 8, 30, 0.92);
+            --border-sidebar: rgba(168, 85, 247, 0.2);
+            --header-bg: rgba(9, 5, 22, 0.94);
+            --sidebar-countdown-bg: linear-gradient(135deg, rgba(88, 28, 135, 0.85), rgba(13, 8, 30, 0.95));
+            --sidebar-countdown-border: rgba(192, 132, 252, 0.3);
         }
         [data-theme="slate"] {
             --bg-main: #0F172A;
+            --bg-sidebar: #0B1220;
+            --bg-sidebar-card: #162032;
+            --bg-sidebar-sub: #080D17;
             --bg-card: #1E293B;
             --bg-elevated: #334155;
             --brand-400: #38BDF8;
             --brand-500: #0EA5E9;
             --brand-600: #0284C7;
             --border-card: rgba(255, 255, 255, 0.08);
-            --header-bg: rgba(15, 23, 42, 0.92);
+            --border-sidebar: rgba(51, 65, 85, 0.8);
+            --header-bg: rgba(11, 18, 32, 0.94);
+            --sidebar-countdown-bg: linear-gradient(135deg, rgba(14, 116, 144, 0.85), rgba(15, 23, 42, 0.95));
+            --sidebar-countdown-border: rgba(56, 189, 248, 0.3);
         }
 
         body {
@@ -112,6 +143,36 @@
             border-color: var(--brand-400);
             transform: translateY(-2px);
             box-shadow: 0 12px 24px -10px rgba(99, 102, 241, 0.25);
+        }
+        .app-sidebar {
+            background-color: var(--bg-sidebar) !important;
+            border-color: var(--border-sidebar) !important;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .sidebar-card {
+            background-color: var(--bg-sidebar-card) !important;
+            border-color: var(--border-sidebar) !important;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .sidebar-subcard {
+            background-color: var(--bg-sidebar-sub) !important;
+            border-color: var(--border-sidebar) !important;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .sidebar-countdown {
+            background: var(--sidebar-countdown-bg) !important;
+            border-color: var(--sidebar-countdown-border) !important;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .app-header {
+            background-color: var(--header-bg) !important;
+            border-color: var(--border-sidebar) !important;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .app-mobile-nav {
+            background-color: var(--bg-sidebar) !important;
+            border-color: var(--border-sidebar) !important;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
         .nav-active {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.15));
@@ -228,7 +289,7 @@
     </div>
 
     <!-- SOL MENÜ (SIDEBAR - DESKTOP) -->
-    <aside class="hidden lg:flex flex-col w-64 bg-[#0B111E] border-r border-slate-800/80 shrink-0 select-none">
+    <aside id="appSidebar" class="app-sidebar hidden lg:flex flex-col w-64 border-r shrink-0 select-none">
         <!-- Logo -->
         <div class="p-5 flex items-center gap-3 border-b border-slate-800/80">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/25">
@@ -244,7 +305,7 @@
         </div>
 
         <!-- Öğrenci Profil & Alan Seçici Özeti (ÇOKLU ALAN SEÇİMİ) -->
-        <div class="p-4 mx-3 mt-4 rounded-2xl bg-slate-900/95 border border-slate-800/90 space-y-3">
+        <div class="sidebar-card p-4 mx-3 mt-4 rounded-2xl border space-y-3">
             <div class="flex items-start justify-between gap-2">
                 <div class="min-w-0">
                     <p id="sidebarStudentName" class="text-xs font-bold text-white leading-snug line-clamp-2">Hedef: İlk 5.000</p>
@@ -261,7 +322,7 @@
                     <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Sorumlu Alanlar:</label>
                     <span class="text-[9px] text-indigo-300 font-medium">Çoklu Seçilebilir</span>
                 </div>
-                <div class="grid grid-cols-4 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
+                <div class="sidebar-subcard grid grid-cols-4 gap-1 p-1 rounded-xl border">
                     <button type="button" data-fieldtoggle="SAY" class="global-field-toggle py-1.5 rounded-lg text-[11px] font-extrabold bg-indigo-600 text-white transition">SAY</button>
                     <button type="button" data-fieldtoggle="EA" class="global-field-toggle py-1.5 rounded-lg text-[11px] font-extrabold text-slate-400 hover:text-white transition">EA</button>
                     <button type="button" data-fieldtoggle="SOZ" class="global-field-toggle py-1.5 rounded-lg text-[11px] font-extrabold text-slate-400 hover:text-white transition">SÖZ</button>
@@ -322,7 +383,7 @@
         </nav>
 
         <!-- YKS Geri Sayım Kutusu -->
-        <div class="p-4 m-3 rounded-2xl bg-gradient-to-br from-indigo-950/90 via-slate-900 to-purple-950/80 border border-indigo-500/30">
+        <div class="sidebar-countdown p-4 m-3 rounded-2xl border">
             <div class="flex items-center justify-between mb-1">
                 <span class="text-[11px] font-semibold uppercase tracking-wider text-indigo-300">YKS Geri Sayım</span>
                 <i class="fa-solid fa-hourglass-half text-indigo-400 text-xs"></i>
@@ -338,7 +399,7 @@
     <!-- ANA İÇERİK ALANI -->
     <div class="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
         <!-- ÜST BAR (HEADER) -->
-        <header class="sticky top-0 z-30 bg-[#090D16]/90 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-8 py-3.5 flex items-center justify-between gap-3">
+        <header id="appHeader" class="app-header sticky top-0 z-30 backdrop-blur-md border-b px-4 lg:px-8 py-3.5 flex items-center justify-between gap-3">
             <div class="flex items-center gap-3">
                 <div class="lg:hidden w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-500 flex items-center justify-center shadow-md">
                     <i class="fa-solid fa-graduation-cap text-white text-sm"></i>
@@ -1593,7 +1654,7 @@
     </div>
 
     <!-- ALT NAVİGASYON BARI (MOBİL GÖRÜNÜM) -->
-    <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0B111E]/95 backdrop-blur-xl border-t border-slate-800 px-1.5 py-1.5 flex items-center justify-around">
+    <nav id="appMobileNav" class="app-mobile-nav lg:hidden fixed bottom-0 left-0 right-0 z-40 backdrop-blur-xl border-t px-1.5 py-1.5 flex items-center justify-around">
         <button type="button" data-tab="dashboard" class="nav-btn mobile-nav-active flex flex-col items-center py-1 px-1.5 text-slate-400">
             <i class="fa-solid fa-chart-pie text-sm"></i>
             <span class="text-[9px] font-semibold mt-0.5">Panel</span>
@@ -1982,6 +2043,7 @@
                     }
                 },
                 curriculumState: {},
+                calcInputs: {},
                 exams: [
                     {
                         id: 'ex1', type: 'TYT', title: '3D Yayınları Türkiye Geneli #1', date: getPastDateStr(24),
@@ -2118,7 +2180,9 @@
 
         function saveState() {
             try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+                if (typeof localStorage !== "undefined") {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+                }
             } catch (e) {
                 console.warn('LocalStorage hatası:', e);
             }
@@ -3237,165 +3301,262 @@
 
         const YOK_ATLAS_PROGRAMS = buildFullYokAtlasCatalog();
 
-        const HISTORICAL_OSYM_COEFFS = {
-            2022: {
-                tytBase: 100, tytTurk: 3.31, tytSos: 3.38, tytMat: 3.29, tytFen: 3.42,
-                aytTytWeight: 0.40,
-                aytMat: 2.94, aytFiz: 2.86, aytKim: 3.05, aytBiy: 3.12,
-                aytEdeb: 3.05, aytTar1: 2.95, aytCog1: 3.10,
-                aytTar2: 2.92, aytCog2: 2.88, aytFel: 3.08, aytDin: 3.15,
-                ydt: 3.00,
-                rankShiftFactor: { TYT: 1.34, SAY: 1.38, EA: 1.29, SOZ: 1.24, DIL: 1.18 }
+        // =====================================================
+        // ERTAN SİNAN ŞAHİN & VEPUAN BİREBİR YKS MOTORU
+        // =====================================================
+        const ESS_OFFICIAL_COEFFS = {
+            taban: {
+                TYT: 150.68,
+                SAY: 121.65,
+                EA: 123.34,
+                SOZ: 122.72,
+                DIL: 109.77
             },
-            2023: {
-                tytBase: 100, tytTurk: 3.36, tytSos: 3.34, tytMat: 3.30, tytFen: 3.38,
-                aytTytWeight: 0.40,
-                aytMat: 2.98, aytFiz: 2.90, aytKim: 3.02, aytBiy: 3.09,
-                aytEdeb: 3.02, aytTar1: 3.00, aytCog1: 3.05,
-                aytTar2: 2.98, aytCog2: 2.92, aytFel: 3.05, aytDin: 3.10,
-                ydt: 3.00,
-                rankShiftFactor: { TYT: 1.22, SAY: 1.26, EA: 1.21, SOZ: 1.16, DIL: 1.12 }
+            tyt: {
+                turkce: 2.71,
+                sosyal: 3.13,
+                matematik: 3.25,
+                fen: 2.58
             },
-            2024: {
-                tytBase: 100, tytTurk: 3.34, tytSos: 3.35, tytMat: 3.35, tytFen: 3.32,
-                aytTytWeight: 0.40,
-                aytMat: 3.18, aytFiz: 3.12, aytKim: 3.08, aytBiy: 3.06,
-                aytEdeb: 3.12, aytTar1: 3.10, aytCog1: 3.04,
-                aytTar2: 3.08, aytCog2: 3.02, aytFel: 3.12, aytDin: 3.08,
-                ydt: 3.04,
-                rankShiftFactor: { TYT: 0.82, SAY: 0.68, EA: 0.74, SOZ: 0.81, DIL: 0.88 }
+            say: {
+                aytMat: 3.02,
+                aytBiy: 2.61,
+                aytFiz: 2.53,
+                aytKim: 2.52,
+                tytMat: 1.47,
+                tytSos: 1.42,
+                tytTurk: 1.23,
+                tytFen: 1.17
             },
-            2025: {
-                tytBase: 100, tytTurk: 3.33, tytSos: 3.34, tytMat: 3.34, tytFen: 3.33,
-                aytTytWeight: 0.40,
-                aytMat: 3.04, aytFiz: 2.98, aytKim: 3.02, aytBiy: 3.04,
-                aytEdeb: 3.04, aytTar1: 3.02, aytCog1: 3.02,
-                aytTar2: 3.00, aytCog2: 2.96, aytFel: 3.04, aytDin: 3.05,
-                ydt: 3.01,
-                rankShiftFactor: { TYT: 0.94, SAY: 0.89, EA: 0.91, SOZ: 0.93, DIL: 0.95 }
+            ea: {
+                aytEdeb: 3.28,
+                aytMat: 2.94,
+                aytCog1: 2.55,
+                aytTar1: 2.37,
+                tytMat: 1.43,
+                tytSos: 1.38,
+                tytTurk: 1.20,
+                tytFen: 1.14
             },
-            2026: {
-                tytBase: 100, tytTurk: 3.33, tytSos: 3.33, tytMat: 3.34, tytFen: 3.33,
-                aytTytWeight: 0.40,
-                aytMat: 3.00, aytFiz: 2.95, aytKim: 3.00, aytBiy: 3.05,
-                aytEdeb: 3.00, aytTar1: 3.00, aytCog1: 3.00,
-                aytTar2: 3.00, aytCog2: 3.00, aytFel: 3.00, aytDin: 3.00,
-                ydt: 3.00,
-                rankShiftFactor: { TYT: 1.00, SAY: 1.00, EA: 1.00, SOZ: 1.00, DIL: 1.00 }
+            soz: {
+                aytFel: 4.20,
+                aytTar2: 3.24,
+                aytEdeb: 3.13,
+                aytCog2: 2.93,
+                aytCog1: 2.43,
+                aytTar1: 2.26,
+                aytDin: 1.99,
+                tytMat: 1.37,
+                tytSos: 1.32,
+                tytTurk: 1.14,
+                tytFen: 1.09
+            },
+            dil: {
+                aytYdt: 2.59,
+                tytMat: 1.71,
+                tytSos: 1.64,
+                tytTurk: 1.42,
+                tytFen: 1.35
             }
         };
 
-        function estimateYksRankFromScore(score, type = 'SAY', year = 2026) {
-            const curves = {
-                TYT: [
-                    [555, 25], [540, 180], [525, 680], [510, 1850], [495, 4200], [480, 8200],
-                    [465, 14500], [450, 23500], [435, 36500], [420, 55000], [405, 81000],
-                    [390, 116000], [375, 162000], [360, 224000], [340, 330000], [320, 475000],
-                    [300, 665000], [270, 1020000], [240, 1480000], [200, 2150000]
-                ],
-                SAY: [
-                    [558, 20], [545, 220], [535, 680], [525, 1580], [515, 2950], [505, 4950],
-                    [495, 7650], [485, 11200], [475, 15800], [465, 21500], [450, 32200],
-                    [435, 46500], [420, 64500], [400, 96000], [380, 138000], [355, 205000],
-                    [330, 292000], [300, 425000], [260, 670000], [210, 1080000]
-                ],
-                EA: [
-                    [545, 15], [525, 140], [510, 420], [495, 980], [480, 2050], [465, 3850],
-                    [450, 6800], [435, 11800], [420, 19800], [405, 32500], [390, 51500],
-                    [375, 79000], [355, 132000], [335, 208000], [310, 345000], [275, 610000], [230, 1050000]
-                ],
-                SOZ: [
-                    [535, 15], [510, 130], [490, 460], [475, 1080], [460, 2250], [445, 4450],
-                    [430, 8400], [415, 15200], [400, 26800], [385, 45500], [365, 84000],
-                    [345, 145000], [320, 255000], [285, 470000], [240, 820000]
-                ],
-                DIL: [
-                    [545, 40], [525, 420], [510, 1180], [495, 2450], [480, 4350], [460, 8100],
-                    [440, 13400], [415, 22500], [390, 34800], [360, 53500], [320, 86000], [270, 135000]
-                ]
-            };
-            const table = curves[type] || curves.SAY;
-            let baseRank = table[table.length - 1][1];
-            if (score >= table[0][0]) {
-                baseRank = table[0][1];
-            } else {
-                for (let i = 0; i < table.length - 1; i++) {
-                    const [s1, r1] = table[i];
-                    const [s2, r2] = table[i + 1];
-                    if (score <= s1 && score >= s2) {
-                        const ratio = (s1 - score) / (s1 - s2);
-                        baseRank = Math.max(1, Math.round(r1 + ratio * (r2 - r1)));
-                        break;
-                    }
+        const ESS_YEARLY_RANK_TABLES = {"TYT": {"2026": [[555, 30], [535, 320], [515, 1450], [495, 4200], [475, 9800], [455, 19500], [435, 36000], [410, 68000], [380, 132000], [345, 245000], [305, 460000], [260, 890000], [200, 1850000]], "2025": [[555, 35], [535, 360], [515, 1600], [495, 4600], [475, 10500], [455, 21000], [435, 38500], [410, 72000], [380, 138000], [345, 255000], [305, 480000], [260, 920000], [200, 1920000]], "2024": [[555, 25], [535, 240], [515, 1100], [495, 3100], [475, 7400], [455, 15200], [435, 28500], [410, 55000], [380, 110000], [345, 210000], [305, 410000], [260, 810000], [200, 1720000]], "2023": [[555, 55], [535, 580], [515, 2400], [495, 6800], [475, 15200], [455, 29500], [435, 52000], [410, 96000], [380, 178000], [345, 315000], [305, 570000], [260, 1050000], [200, 2150000]], "2022": [[555, 65], [535, 680], [515, 2800], [495, 7800], [475, 17200], [455, 33000], [435, 58000], [410, 105000], [380, 192000], [345, 335000], [305, 610000], [260, 1120000], [200, 2280000]]}, "SAY": {"2026": [[555, 20], [535, 280], [515, 1450], [495, 4100], [475, 9200], [455, 17500], [430, 32000], [400, 59000], [365, 112000], [325, 210000], [280, 395000], [220, 820000]], "2025": [[555, 25], [535, 320], [515, 1650], [495, 4600], [475, 10200], [455, 19000], [430, 34500], [400, 63000], [365, 120000], [325, 225000], [280, 420000], [220, 860000]], "2024": [[555, 15], [535, 160], [515, 850], [495, 2450], [475, 5600], [455, 11200], [430, 21500], [400, 42000], [365, 84000], [325, 165000], [280, 320000], [220, 690000]], "2023": [[555, 50], [535, 580], [515, 2600], [495, 7200], [475, 15200], [455, 27500], [430, 48000], [400, 85000], [365, 155000], [325, 275000], [280, 510000], [220, 980000]], "2022": [[555, 60], [535, 690], [515, 3100], [495, 8400], [475, 17500], [455, 31000], [430, 54000], [400, 94000], [365, 168000], [325, 295000], [280, 545000], [220, 1040000]]}, "EA": {"2026": [[545, 15], [520, 210], [495, 950], [470, 2750], [445, 6800], [420, 14800], [395, 29500], [365, 62000], [330, 135000], [290, 285000], [240, 620000]], "2025": [[545, 18], [520, 240], [495, 1080], [470, 3100], [445, 7400], [420, 16200], [395, 32000], [365, 67000], [330, 145000], [290, 305000], [240, 660000]], "2024": [[545, 12], [520, 140], [495, 620], [470, 1850], [445, 4600], [420, 10500], [395, 21500], [365, 47000], [330, 108000], [290, 235000], [240, 520000]], "2023": [[545, 35], [520, 420], [495, 1750], [470, 4800], [445, 10800], [420, 22500], [395, 43000], [365, 86000], [330, 180000], [290, 365000], [240, 760000]], "2022": [[545, 42], [520, 490], [495, 2050], [470, 5500], [445, 12200], [420, 25000], [395, 47000], [365, 94000], [330, 195000], [290, 390000], [240, 810000]]}, "SOZ": {"2026": [[535, 15], [505, 180], [480, 750], [455, 2200], [430, 5500], [405, 12500], [375, 28000], [340, 64000], [300, 148000], [250, 360000]], "2025": [[535, 18], [505, 210], [480, 850], [455, 2450], [430, 6100], [405, 13800], [375, 30500], [340, 69000], [300, 158000], [250, 385000]], "2024": [[535, 12], [505, 120], [480, 490], [455, 1500], [430, 3850], [405, 9100], [375, 21000], [340, 49000], [300, 118000], [250, 295000]], "2023": [[535, 30], [505, 340], [480, 1350], [455, 3800], [430, 8900], [405, 19200], [375, 41000], [340, 88000], [300, 195000], [250, 460000]], "2022": [[535, 35], [505, 390], [480, 1550], [455, 4300], [430, 9900], [405, 21500], [375, 45000], [340, 96000], [300, 210000], [250, 490000]]}, "DIL": {"2026": [[545, 25], [520, 280], [490, 1100], [460, 3100], [430, 7200], [395, 14500], [355, 28000], [305, 56000], [250, 110000]], "2025": [[545, 30], [520, 310], [490, 1220], [460, 3400], [430, 7800], [395, 15600], [355, 30000], [305, 59000], [250, 116000]], "2024": [[545, 20], [520, 210], [490, 840], [460, 2350], [430, 5600], [395, 11800], [355, 23500], [305, 48000], [250, 98000]], "2023": [[545, 45], [520, 460], [490, 1750], [460, 4600], [430, 10200], [395, 19800], [355, 37000], [305, 71000], [250, 135000]], "2022": [[545, 50], [520, 520], [490, 1950], [460, 5100], [430, 11200], [395, 21500], [355, 40000], [305, 76000], [250, 142000]]}};
+
+        function lookupOfficialYksRank(score, type, year) {
+            const typeKey = (type === 'SOZ' || type === 'SÖZ') ? 'SOZ' : type;
+            const yearMap = ESS_YEARLY_RANK_TABLES[typeKey] || ESS_YEARLY_RANK_TABLES['SAY'];
+            const table = yearMap[year] || yearMap[2026] || yearMap['2026'];
+            if (!table || table.length === 0) return 10000;
+
+            if (score >= table[0][0]) return table[0][1];
+            if (score <= table[table.length - 1][0]) return table[table.length - 1][1];
+
+            for (let i = 0; i < table.length - 1; i++) {
+                const s1 = table[i][0], r1 = table[i][1];
+                const s2 = table[i+1][0], r2 = table[i+1][1];
+                if (s1 >= score && score >= s2) {
+                    const ratio = (s1 - score) / (s1 - s2);
+                    return Math.max(1, Math.round(r1 + ratio * (r2 - r1)));
                 }
             }
-            const yearConfig = HISTORICAL_OSYM_COEFFS[year] || HISTORICAL_OSYM_COEFFS[2026];
-            const shift = (yearConfig.rankShiftFactor && yearConfig.rankShiftFactor[type]) || 1.0;
-            return Math.max(1, Math.round(baseRank * shift));
+            return table[table.length - 1][1];
         }
 
         function calculateDetailedMultiYearYks(netsObj, diplomaScore = 92, brokenObp = false, year = 2026) {
-            const c = HISTORICAL_OSYM_COEFFS[year] || HISTORICAL_OSYM_COEFFS[2026];
+            const c = ESS_OFFICIAL_COEFFS;
             const obpContribution = +(diplomaScore * (brokenObp ? 0.3 : 0.6)).toFixed(2);
 
-            const tytRaw = Math.min(500, +(c.tytBase
-                + (netsObj.tytTurk || 0) * c.tytTurk
-                + (netsObj.tytSos || 0) * c.tytSos
-                + (netsObj.tytMat || 0) * c.tytMat
-                + (netsObj.tytFen || 0) * c.tytFen).toFixed(2));
-            const tytPlacement = +(tytRaw + obpContribution).toFixed(2);
-            const tytRank = estimateYksRankFromScore(tytPlacement, 'TYT', year);
+            const tytTurk = netsObj.tytTurk || 0;
+            const tytSos = netsObj.tytSos || 0;
+            const tytMat = netsObj.tytMat || 0;
+            const tytFen = netsObj.tytFen || 0;
 
-            const tytContribToAyt = (tytRaw - 100) * c.aytTytWeight;
+            // ÖSYM 0,5 Net Baraj Kuralı
+            const tytValid = (tytTurk >= 0.5 || tytMat >= 0.5);
 
-            // SAY Puanı
-            const sayAytPoints = (netsObj.aytMat || 0) * c.aytMat
-                + (netsObj.aytFiz || 0) * c.aytFiz
-                + (netsObj.aytKim || 0) * c.aytKim
-                + (netsObj.aytBiy || 0) * c.aytBiy;
-            const sayRaw = Math.min(500, +(100 + tytContribToAyt + sayAytPoints * 0.60).toFixed(2));
-            const sayPlacement = +(sayRaw + obpContribution).toFixed(2);
-            const sayRank = estimateYksRankFromScore(sayPlacement, 'SAY', year);
+            // 1. TYT Ham ve Yerleştirme Puanı
+            let tytRaw = 0;
+            let tytPlacement = 0;
+            let tytRank = 0;
 
-            // EA Puanı
-            const eaAytPoints = (netsObj.aytMat || 0) * c.aytMat
-                + (netsObj.aytEdeb || 0) * c.aytEdeb
-                + (netsObj.aytTar1 || 0) * c.aytTar1
-                + (netsObj.aytCog1 || 0) * c.aytCog1;
-            const eaRaw = Math.min(500, +(100 + tytContribToAyt + eaAytPoints * 0.60).toFixed(2));
-            const eaPlacement = +(eaRaw + obpContribution).toFixed(2);
-            const eaRank = estimateYksRankFromScore(eaPlacement, 'EA', year);
+            if (tytValid) {
+                tytRaw = +(c.taban.TYT 
+                    + (tytMat * c.tyt.matematik) 
+                    + (tytSos * c.tyt.sosyal) 
+                    + (tytTurk * c.tyt.turkce) 
+                    + (tytFen * c.tyt.fen)).toFixed(2);
+                tytRaw = Math.min(500, Math.max(100, tytRaw));
+                tytPlacement = +(tytRaw + obpContribution).toFixed(2);
+                tytRank = lookupOfficialYksRank(tytPlacement, 'TYT', year);
+            }
 
-            // SÖZ Puanı
-            const sozAytPoints = (netsObj.aytEdeb || 0) * c.aytEdeb
-                + (netsObj.aytTar1 || 0) * c.aytTar1
-                + (netsObj.aytCog1 || 0) * c.aytCog1
-                + (netsObj.aytTar2 || 0) * c.aytTar2
-                + (netsObj.aytCog2 || 0) * c.aytCog2
-                + (netsObj.aytFel || 0) * c.aytFel
-                + (netsObj.aytDin || 0) * c.aytDin;
-            const sozRaw = Math.min(500, +(100 + tytContribToAyt + sozAytPoints * 0.60).toFixed(2));
-            const sozPlacement = +(sozRaw + obpContribution).toFixed(2);
-            const sozRank = estimateYksRankFromScore(sozPlacement, 'SOZ', year);
+            // 2. SAY Puanı
+            const aytMat = netsObj.aytMat || 0;
+            const aytFiz = netsObj.aytFiz || 0;
+            const aytKim = netsObj.aytKim || 0;
+            const aytBiy = netsObj.aytBiy || 0;
+            const sayFenTotal = aytFiz + aytKim + aytBiy;
+            const sayValid = tytValid && (aytMat >= 0.5 || sayFenTotal >= 0.5);
 
-            // DİL Puanı
-            const dilAytPoints = (netsObj.aytYdt || 0) * c.ydt;
-            const dilRaw = Math.min(500, +(100 + tytContribToAyt + dilAytPoints * 0.60).toFixed(2));
-            const dilPlacement = +(dilRaw + obpContribution).toFixed(2);
-            const dilRank = estimateYksRankFromScore(dilPlacement, 'DIL', year);
+            let sayRaw = 0, sayPlacement = 0, sayRank = 0;
+            if (sayValid) {
+                sayRaw = +(c.taban.SAY
+                    + (aytMat * c.say.aytMat)
+                    + (aytBiy * c.say.aytBiy)
+                    + (aytFiz * c.say.aytFiz)
+                    + (aytKim * c.say.aytKim)
+                    + (tytMat * c.say.tytMat)
+                    + (tytSos * c.say.tytSos)
+                    + (tytTurk * c.say.tytTurk)
+                    + (tytFen * c.say.tytFen)).toFixed(2);
+                sayRaw = Math.min(500, Math.max(100, sayRaw));
+                sayPlacement = +(sayRaw + obpContribution).toFixed(2);
+                sayRank = lookupOfficialYksRank(sayPlacement, 'SAY', year);
+            }
+
+            // 3. EA Puanı
+            const aytEdeb = netsObj.aytEdeb || 0;
+            const aytTar1 = netsObj.aytTar1 || 0;
+            const aytCog1 = netsObj.aytCog1 || 0;
+            const eaSos1Total = aytEdeb + aytTar1 + aytCog1;
+            const eaValid = tytValid && (aytMat >= 0.5 || eaSos1Total >= 0.5);
+
+            let eaRaw = 0, eaPlacement = 0, eaRank = 0;
+            if (eaValid) {
+                eaRaw = +(c.taban.EA
+                    + (aytEdeb * c.ea.aytEdeb)
+                    + (aytMat * c.ea.aytMat)
+                    + (aytCog1 * c.ea.aytCog1)
+                    + (aytTar1 * c.ea.aytTar1)
+                    + (tytMat * c.ea.tytMat)
+                    + (tytSos * c.ea.tytSos)
+                    + (tytTurk * c.ea.tytTurk)
+                    + (tytFen * c.ea.tytFen)).toFixed(2);
+                eaRaw = Math.min(500, Math.max(100, eaRaw));
+                eaPlacement = +(eaRaw + obpContribution).toFixed(2);
+                eaRank = lookupOfficialYksRank(eaPlacement, 'EA', year);
+            }
+
+            // 4. SÖZ Puanı
+            const aytTar2 = netsObj.aytTar2 || 0;
+            const aytCog2 = netsObj.aytCog2 || 0;
+            const aytFel = netsObj.aytFel || 0;
+            const aytDin = netsObj.aytDin || 0;
+            const sozSos2Total = aytTar2 + aytCog2 + aytFel + aytDin;
+            const sozValid = tytValid && (eaSos1Total >= 0.5 || sozSos2Total >= 0.5);
+
+            let sozRaw = 0, sozPlacement = 0, sozRank = 0;
+            if (sozValid) {
+                sozRaw = +(c.taban.SOZ
+                    + (aytFel * c.soz.aytFel)
+                    + (aytTar2 * c.soz.aytTar2)
+                    + (aytEdeb * c.soz.aytEdeb)
+                    + (aytCog2 * c.soz.aytCog2)
+                    + (aytCog1 * c.soz.aytCog1)
+                    + (aytTar1 * c.soz.aytTar1)
+                    + (aytDin * c.soz.aytDin)
+                    + (tytMat * c.soz.tytMat)
+                    + (tytSos * c.soz.tytSos)
+                    + (tytTurk * c.soz.tytTurk)
+                    + (tytFen * c.soz.tytFen)).toFixed(2);
+                sozRaw = Math.min(500, Math.max(100, sozRaw));
+                sozPlacement = +(sozRaw + obpContribution).toFixed(2);
+                sozRank = lookupOfficialYksRank(sozPlacement, 'SOZ', year);
+            }
+
+            // 5. DİL Puanı
+            const aytYdt = netsObj.aytYdt || 0;
+            const dilValid = tytValid && (aytYdt >= 0.5);
+
+            let dilRaw = 0, dilPlacement = 0, dilRank = 0;
+            if (dilValid) {
+                dilRaw = +(c.taban.DIL
+                    + (aytYdt * c.dil.aytYdt)
+                    + (tytMat * c.dil.tytMat)
+                    + (tytSos * c.dil.tytSos)
+                    + (tytTurk * c.dil.tytTurk)
+                    + (tytFen * c.dil.tytFen)).toFixed(2);
+                dilRaw = Math.min(500, Math.max(100, dilRaw));
+                dilPlacement = +(dilRaw + obpContribution).toFixed(2);
+                dilRank = lookupOfficialYksRank(dilPlacement, 'DIL', year);
+            }
 
             return {
                 year,
                 obpContribution,
-                TYT: { raw: tytRaw, placement: tytPlacement, rank: tytRank },
-                SAY: { raw: sayRaw, placement: sayPlacement, rank: sayRank },
-                EA:  { raw: eaRaw,  placement: eaPlacement,  rank: eaRank },
-                SOZ: { raw: sozRaw, placement: sozPlacement, rank: sozRank },
-                DIL: { raw: dilRaw, placement: dilPlacement, rank: dilRank }
+                TYT: { raw: tytRaw, placement: tytPlacement, rank: tytRank, valid: tytValid },
+                SAY: { raw: sayRaw, placement: sayPlacement, rank: sayRank, valid: sayValid },
+                EA:  { raw: eaRaw,  placement: eaPlacement,  rank: eaRank, valid: eaValid },
+                SOZ: { raw: sozRaw, placement: sozPlacement, rank: sozRank, valid: sozValid },
+                DIL: { raw: dilRaw, placement: dilPlacement, rank: dilRank, valid: dilValid }
             };
         }
 
-        function updateInteractiveRankCalculator() {
+        function calculateYksScoresAndRanks(tytNet, aytNet, diplomaScore = 92, brokenObp = false, fieldType = 'SAY') {
+            const tytPart = tytNet / 4;
+            const aytPart = aytNet / 4;
+            const netsObj = {
+                tytTurk: tytPart * 1.1,
+                tytSos: tytPart * 0.7,
+                tytMat: tytPart * 1.2,
+                tytFen: tytPart * 1.0,
+                aytMat: aytPart * 1.4,
+                aytFiz: aytPart * 0.9,
+                aytKim: aytPart * 0.85,
+                aytBiy: aytPart * 0.85,
+                aytEdeb: aytPart * 1.4,
+                aytTar1: aytPart * 0.6,
+                aytCog1: aytPart * 0.4,
+                aytYdt: aytNet
+            };
+            const res2026 = calculateDetailedMultiYearYks(netsObj, diplomaScore, brokenObp, 2026);
+            const activeRes = res2026[fieldType] || res2026.SAY;
+
+            return {
+                obpContribution: res2026.obpContribution,
+                tytRaw: res2026.TYT.raw,
+                tytPlacement: res2026.TYT.placement,
+                tytRank: res2026.TYT.rank,
+                aytRaw: activeRes.raw,
+                aytPlacement: activeRes.placement,
+                aytRank: activeRes.rank
+            };
+        }
+
+
+        function restoreCalcInputs() {
+            if (!appState.calcInputs) return;
+            Object.entries(appState.calcInputs).forEach(([id, val]) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (el.type === 'checkbox') el.checked = !!val;
+                    else el.value = val;
+                }
+            });
+        }
+
+
+function updateInteractiveRankCalculator() {
             const field = document.getElementById('calcFieldType')?.value || 'SAY';
             const diploma = Math.min(100, Math.max(50, Number(document.getElementById('calcDiplomaScore')?.value || 92)));
             const broken = document.getElementById('calcBrokenObp')?.checked || false;
@@ -3439,31 +3600,59 @@
             const activeFieldRes = res2026[field] || res2026.SAY;
 
             const resTytRank = document.getElementById('resTytRank');
-            if (resTytRank) resTytRank.textContent = `#${formatRankNumber(res2026.TYT.rank)}`;
+            if (resTytRank) resTytRank.textContent = res2026.TYT.valid ? `#${formatRankNumber(res2026.TYT.rank)}` : 'Baraj Altı';
             const resTytScore = document.getElementById('resTytScore');
-            if (resTytScore) resTytScore.textContent = `${res2026.TYT.placement} Puan`;
+            if (resTytScore) resTytScore.textContent = res2026.TYT.valid ? `${res2026.TYT.placement} Puan` : '0.00 Puan';
             const resTytRaw = document.getElementById('resTytRawInfo');
-            if (resTytRaw) resTytRaw.textContent = `Ham: ${res2026.TYT.raw} • OBP Katkısı: +${res2026.obpContribution}`;
+            if (resTytRaw) resTytRaw.textContent = `Ham: ${res2026.TYT.raw} • OBP: +${res2026.obpContribution}`;
 
             const cardTitle = document.getElementById('resAytCardTitle');
             if (cardTitle) cardTitle.textContent = `${field} Yerleştirme (2026 Baz)`;
             const resAytRank = document.getElementById('resAytRank');
-            if (resAytRank) resAytRank.textContent = `#${formatRankNumber(activeFieldRes.rank)}`;
+            if (resAytRank) resAytRank.textContent = activeFieldRes.valid ? `#${formatRankNumber(activeFieldRes.rank)}` : 'Baraj Altı';
             const resAytScore = document.getElementById('resAytScore');
-            if (resAytScore) resAytScore.textContent = `${activeFieldRes.placement} Puan`;
+            if (resAytScore) resAytScore.textContent = activeFieldRes.valid ? `${activeFieldRes.placement} Puan` : '0.00 Puan';
 
             const targetRank = appState.goals.targetRank || 5000;
             const statusEl = document.getElementById('resAytGoalStatus');
             if (statusEl) {
-                if (activeFieldRes.rank <= targetRank) {
+                if (!activeFieldRes.valid) {
+                    statusEl.className = 'text-[11px] text-rose-400 mt-1';
+                    statusEl.textContent = '0,5 net barajını aşamadığınız için bu puan türü hesaplanmadı.';
+                } else if (activeFieldRes.rank <= targetRank) {
                     statusEl.className = 'text-[11px] text-emerald-400 font-semibold mt-1';
-                    statusEl.textContent = `🎉 Seçili YÖK Atlas hedefin (#${formatRankNumber(targetRank)}) tutuyor!`;
+                    statusEl.textContent = `🎉 Seçili hedefin (#${formatRankNumber(targetRank)}) tutuyor!`;
                 } else {
                     const diffRank = activeFieldRes.rank - targetRank;
                     statusEl.className = 'text-[11px] text-amber-300 mt-1';
                     statusEl.textContent = `Hedef (#${formatRankNumber(targetRank)}) için ${formatRankNumber(diffRank)} kişi daha geçmelisin.`;
                 }
             }
+
+            // Anlık Girişleri appState.calcInputs İçine Kalıcı Olarak Kaydet (Asla Sıfırlanmasın)
+            if (!appState.calcInputs) appState.calcInputs = {};
+            appState.calcInputs = {
+                calcFieldType: field,
+                calcDiplomaScore: diploma,
+                calcBrokenObp: broken,
+                calcTytTurkce: netsObj.tytTurk,
+                calcTytSosyal: netsObj.tytSos,
+                calcTytMat: netsObj.tytMat,
+                calcTytFen: netsObj.tytFen,
+                calcAytMat: netsObj.aytMat,
+                calcAytSub1: netsObj.aytFiz,
+                calcAytSub2: netsObj.aytKim,
+                calcAytSub3: netsObj.aytBiy,
+                calcAytEdebiyat: netsObj.aytEdeb,
+                calcAytTarih1: netsObj.aytTar1,
+                calcAytCografya1: netsObj.aytCog1,
+                calcAytTarih2: netsObj.aytTar2,
+                calcAytCografya2: netsObj.aytCog2,
+                calcAytFelsefe: netsObj.aytFel,
+                calcAytDin: netsObj.aytDin,
+                calcAytYdt: netsObj.aytYdt
+            };
+            saveState();
 
             const tbody = document.getElementById('multiYearRankTableBody');
             if (tbody) {
@@ -3478,11 +3667,16 @@
                 tbody.innerHTML = rowTypes.map(rt => {
                     const cells = years.map(yr => {
                         const cellObj = byYear[yr][rt.key];
-                        const isBestYear = yr === 2024;
+                        const is2026 = yr === 2026;
                         return `
-                            <td class="py-2.5 px-2 text-center ${isBestYear ? 'bg-emerald-500/5' : ''}">
-                                <span class="font-extrabold ${isBestYear ? 'text-emerald-300' : 'text-white'} block">#${formatRankNumber(cellObj.rank)}</span>
-                                <span class="text-[10px] text-slate-400">${cellObj.placement} Puan</span>
+                            <td class="py-2.5 px-2 text-center ${is2026 ? 'bg-amber-500/10' : ''}">
+                                ${cellObj.valid 
+                                    ? `<span class="font-extrabold ${is2026 ? 'text-amber-300 text-sm' : 'text-white'} block">#${formatRankNumber(cellObj.rank)}</span>
+                                       <span class="text-[10px] text-slate-400 font-mono">${cellObj.placement} Puan</span>
+                                       <span class="text-[9px] text-slate-500 block">Ham: ${cellObj.raw}</span>`
+                                    : `<span class="text-[10px] text-rose-400 font-semibold block">0,5 Net Barajı</span>
+                                       <span class="text-[9px] text-slate-500">Hesaplanmadı</span>`
+                                }
                             </td>
                         `;
                     }).join('');
@@ -3500,17 +3694,9 @@
             }
         }
 
-        function calculateYksScoresAndRanks(tytNet, aytNet, diplomaScore = 92, brokenObp = false, fieldType = 'SAY') {
-            const obpContribution = +(diplomaScore * (brokenObp ? 0.3 : 0.6)).toFixed(2);
-            const tytRaw = Math.min(500, +(100 + (tytNet * 3.333)).toFixed(2));
-            const tytPlacement = +(tytRaw + obpContribution).toFixed(2);
-            const tytRank = estimateYksRankFromScore(tytPlacement, 'TYT', 2026);
 
-            const aytRaw = Math.min(500, +(100 + (tytNet * 1.333) + (aytNet * 3.0)).toFixed(2));
-            const aytPlacement = +(aytRaw + obpContribution).toFixed(2);
-            const aytRank = estimateYksRankFromScore(aytPlacement, fieldType, 2026);
-            return { obpContribution, tytRaw, tytPlacement, tytRank, aytRaw, aytPlacement, aytRank };
-        }
+
+        
 
         // =====================================================
         // DENEMELER SEKMESİ RENDER
@@ -3884,7 +4070,17 @@
         // SIRALAMA, GELİŞİM & HATA DEFTERİ RENDER
         // =====================================================
         function renderRankCalcTab() {
+            restoreCalcInputs();
             updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
             initializeYokAtlasFilterDropdowns();
             renderYokAtlasCardsList();
         }
@@ -3999,12 +4195,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
             updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                         renderYokAtlasCardsList();
                         showTopPushNotification('Hedef Bölüm Belirlendi 🎯', `${prog.uni} - ${prog.dept} hedefin kaydedildi.`);
                     }
@@ -4141,12 +4355,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
-            updateInteractiveRankCalculator(); }
+            updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+ }
                 });
             });
             container.querySelectorAll('.btn-toggle-solved').forEach(btn => {
@@ -4196,12 +4428,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
-            updateInteractiveRankCalculator(); }
+            updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+ }
                 });
             });
             container.querySelectorAll('.btn-del-mistake').forEach(btn => {
@@ -4251,12 +4501,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
             updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 });
             });
         }
@@ -4419,12 +4687,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
             updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
         }
 
         function renderStudyLogHistory() {
@@ -4568,12 +4854,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
             updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Çalışma Süresi Eklendi ✅', `${subj} dersine ${formatHoursAndMinutes(mins)} eklendi.`);
             });
 
@@ -4646,12 +4950,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
             updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Günlük Hedef Güncellendi 🎯', `Yeni günlük çalışma hedefin ${val} saat olarak belirlendi.`);
             });
 
@@ -4782,12 +5104,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
             updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 renderExamsTab();
                 showTopPushNotification('Hedefler Kaydedildi 🎯', `${appState.goals.title} (${tytNet} TYT / ${aytNet} AYT) hedef olarak belirlendi.`);
             });
@@ -4920,12 +5260,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
             updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification(`${type} Denemesi Eklendi (${totalNet.toFixed(2)} Net)`, 'Analizler ve grafikler güncellendi.');
             });
 
@@ -5031,12 +5389,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
             updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Programa Eklendi ⏰', 'Ders çalışma tablonuza yeni ders eklendi.');
             });
 
@@ -5103,12 +5479,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
             updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Soru Kaydedildi 📌', 'Hata defterinize eklendi.');
             });
 
@@ -5169,12 +5563,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
-            updateInteractiveRankCalculator(); showTopPushNotification('Yedek Yüklendi ✅', 'Verileriniz geri yüklendi.'); }
+            updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+ showTopPushNotification('Yedek Yüklendi ✅', 'Verileriniz geri yüklendi.'); }
                     } catch (err) {}
                 };
                 reader.readAsText(file);
@@ -5224,12 +5636,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
-            updateInteractiveRankCalculator(); showTopPushNotification('Veriler Sıfırlandı', 'Varsayılan veriler yüklendi.');
+            updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+ showTopPushNotification('Veriler Sıfırlandı', 'Varsayılan veriler yüklendi.');
             });
 
             // İlk Render
@@ -5278,12 +5708,30 @@
                     if (lastAyt.subjects.ydt !== undefined) { const el = document.getElementById('calcAytYdt'); if (el) el.value = lastAyt.subjects.ydt; }
                 }
                 updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
                 showTopPushNotification('Son Deneme Netleri Aktarıldı ✅', 'Tüm branş netleriniz sıralama hesaplama tablosuna aktarıldı.');
             });
 
             document.getElementById('btnGoToRankCalcFromExams')?.addEventListener('click', () => switchTab('rankCalc'));
 
             updateInteractiveRankCalculator();
+
+            // Uygulama Kapanırken / Arka Plana Atılırken Anında Kaydet
+            window.addEventListener('beforeunload', saveState);
+            window.addEventListener('pagehide', saveState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveState();
+            });
+            restoreCalcInputs();
+
         } catch (e) {
             console.error('Uygulama başlatma hatası:', e);
             dismissSplash();
@@ -5298,3 +5746,5 @@
     </script>
 </body>
 </html>
+
+```
