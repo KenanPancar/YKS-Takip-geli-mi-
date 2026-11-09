@@ -43,16 +43,21 @@ jobs:
             fi
           fi
 
-          # KOPYALAMA HATASI KORUMASI: Eğer HTML dosyasının başında veya sonunda kazara ```html veya ``` kalmışsa otomatik temizle
-          python3 -c "
-          p = 'www/index.html'
-          txt = open(p, 'r', encoding='utf-8', errors='ignore').read().strip()
-          import re
-          txt = re.sub(r'^`{3,}\s*(?:html)?\s*', '', txt, flags=re.IGNORECASE)
-          txt = re.sub(r'\s*`{3,}\s*$', '', txt)
-          open(p, 'w', encoding='utf-8').write(txt)
-          print('HTML baslik kontrolu tamamlandi, ilk 30 karakter:', repr(txt[:30]))
-          "
+          # KOPYALAMA HATASI KORUMASI: Eğer HTML dosyasının başında veya sonunda fazladan karakter kalmışsa <!DOCTYPE html> ve </html> sınırlarına göre temizle
+          python3 -c '
+          p = "www/index.html"
+          txt = open(p, "r", encoding="utf-8", errors="ignore").read()
+          s = txt.find("<!DOCTYPE")
+          if s == -1:
+              s = txt.find("<html")
+          if s > 0:
+              txt = txt[s:]
+          e = txt.rfind("</html>")
+          if e != -1:
+              txt = txt[:e + 7]
+          open(p, "w", encoding="utf-8").write(txt.strip() + "\n")
+          print("HTML baslik kontrolu tamamlandi, ilk 30 karakter:", repr(txt[:30]))
+          '
 
           # Capacitor kurulumu
           npm init -y
