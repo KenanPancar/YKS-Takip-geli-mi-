@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="tr" class="dark" data-theme="night">
 <head>
@@ -2416,29 +2417,33 @@
                 </button>
             </div>
 
-            <p class="text-xs text-slate-300 shrink-0">
-                Aşağıdaki dosya mevcut deneme netlerini, çalışma saatlerini, en çok hata yaptığın zaaf konularını ve kişisel profiline eklediğin notları otomatik topladı:
-            </p>
+            <div class="p-3 rounded-xl bg-emerald-950/70 border border-emerald-500/40 flex items-center justify-between gap-2 text-xs text-emerald-200 shrink-0">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+                    <span class="font-bold">Koçluk dosyan otomatik olarak panoya kopyalandı!</span>
+                </div>
+                <span class="text-[11px] text-slate-300">Gemini açılınca kutucuğa sadece "Yapıştır" de.</span>
+            </div>
 
-            <div class="relative flex-1 min-h-[220px] max-h-[380px] bg-slate-950 rounded-xl border border-slate-800 p-3 overflow-hidden flex flex-col">
+            <div class="relative flex-1 min-h-[200px] max-h-[350px] bg-slate-950 rounded-xl border border-slate-800 p-3 overflow-hidden flex flex-col">
                 <textarea id="textGeminiDossierPreview" readonly class="w-full flex-1 bg-transparent text-slate-300 font-mono text-xs leading-relaxed resize-none focus:outline-none"></textarea>
             </div>
 
             <div class="flex flex-wrap items-center justify-between gap-2.5 pt-1 shrink-0 border-t border-slate-800">
-                <div class="flex items-center gap-2">
-                    <button type="button" id="btnDownloadDossierInsideModal" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5 border border-slate-700">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <a href="https://gemini.google.com/app" target="_blank" rel="noopener noreferrer" id="btnLaunchGeminiFromModal" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-extrabold transition shadow-lg shadow-purple-600/30 flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Gemini'ı Aç (gemini.google.com)
+                    </a>
+                    <button type="button" id="btnCopyDossierInsideModal" class="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5 border border-slate-700">
+                        <i class="fa-solid fa-copy text-indigo-400"></i> Tekrar Kopyala
+                    </button>
+                    <button type="button" id="btnDownloadDossierInsideModal" class="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5 border border-slate-700">
                         <i class="fa-solid fa-file-arrow-down text-purple-400"></i> .txt İndir
                     </button>
-                    <button type="button" id="btnCopyDossierInsideModal" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5 border border-slate-700">
-                        <i class="fa-solid fa-copy text-indigo-400"></i> Panoya Kopyala
-                    </button>
-                    <button type="button" id="btnShareDossierInsideModal" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5 border border-slate-700">
+                    <button type="button" id="btnShareDossierInsideModal" class="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5 border border-slate-700">
                         <i class="fa-solid fa-share-nodes text-emerald-400"></i> Paylaş
                     </button>
                 </div>
-                <button type="button" id="btnLaunchGeminiFromModal" class="px-5 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-extrabold transition shadow-lg shadow-purple-600/30 flex items-center gap-2">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Gemini'ı Aç & Sor
-                </button>
             </div>
         </div>
     </div>
@@ -6097,18 +6102,53 @@ Bana:
             showTopPushNotification('Dosya İndirildi 💾', 'YKS Koçluk raporunuz .txt formatında indirildi.');
         }
 
-        async function openGeminiWithDossier(customQuestion = '') {
-            const text = generateFullGeminiCoachDossier(customQuestion);
+        function copyTextToClipboard(text) {
+            let success = false;
             try {
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    await navigator.clipboard.writeText(text);
-                }
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.left = '-9999px';
+                ta.style.top = '-9999px';
+                ta.setAttribute('readonly', '');
+                document.body.appendChild(ta);
+                ta.select();
+                ta.setSelectionRange(0, 99999);
+                success = document.execCommand('copy');
+                document.body.removeChild(ta);
             } catch (e) {
-                console.warn('Clipboard kopyalama uyarısı:', e);
+                console.warn('execCommand kopyalama hatası:', e);
             }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).catch(() => {});
+            }
+            return success;
+        }
 
-            window.open('https://gemini.google.com/app', '_blank');
-            showTopPushNotification('Dosya Kopyalandı & Gemini Açıldı 🚀', 'Tüm YKS verilerin kopyalandı! Gemini kutusuna Yapıştır deyip gönderebilirsin.');
+        function openExternalUrl(url) {
+            try {
+                window.open(url, '_system');
+            } catch (e) {}
+            try {
+                window.open(url, '_blank');
+            } catch (e) {}
+            try {
+                const a = document.createElement('a');
+                a.href = url;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } catch (e) {}
+        }
+
+        function openGeminiWithDossier(customQuestion = '') {
+            const text = generateFullGeminiCoachDossier(customQuestion);
+            copyTextToClipboard(text);
+            openGeminiDossierModal();
+            openExternalUrl('https://gemini.google.com/app');
+            showTopPushNotification('Dosya Kopyalandı & Gemini Açılıyor 🚀', 'Tüm YKS verilerin kopyalandı! Gemini\'a Yapıştır deyip gönderebilirsin.');
         }
 
         async function shareCoachDossier(customQuestion = '') {
@@ -6134,9 +6174,11 @@ Bana:
         function openGeminiDossierModal() {
             const modal = document.getElementById('modalGeminiDossier');
             const preview = document.getElementById('textGeminiDossierPreview');
+            const dossierText = generateFullGeminiCoachDossier();
             if (preview) {
-                preview.value = generateFullGeminiCoachDossier();
+                preview.value = dossierText;
             }
+            copyTextToClipboard(dossierText);
             if (modal) {
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
@@ -7432,8 +7474,9 @@ TALİMATLAR:
             });
             document.getElementById('btnShareDossierInsideModal')?.addEventListener('click', () => shareCoachDossier());
             document.getElementById('btnLaunchGeminiFromModal')?.addEventListener('click', () => {
-                closeGeminiDossierModal();
-                openGeminiWithDossier();
+                const text = generateFullGeminiCoachDossier();
+                copyTextToClipboard(text);
+                showTopPushNotification('Dosya Kopyalandı 📋', 'Gemini açıldı, kutuya Yapıştır deyip gönderebilirsin.');
             });
 
             document.getElementById('btnOpenGeminiKeyModal')?.addEventListener('click', openSettingsModal);
@@ -8058,3 +8101,4 @@ TALİMATLAR:
     </script>
 </body>
 </html>
+```
