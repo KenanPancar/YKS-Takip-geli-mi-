@@ -43,6 +43,17 @@ jobs:
             fi
           fi
 
+          # KOPYALAMA HATASI KORUMASI: Eğer HTML dosyasının başında veya sonunda kazara ```html veya ``` kalmışsa otomatik temizle
+          python3 -c "
+          p = 'www/index.html'
+          txt = open(p, 'r', encoding='utf-8', errors='ignore').read().strip()
+          import re
+          txt = re.sub(r'^`{3,}\s*(?:html)?\s*', '', txt, flags=re.IGNORECASE)
+          txt = re.sub(r'\s*`{3,}\s*$', '', txt)
+          open(p, 'w', encoding='utf-8').write(txt)
+          print('HTML baslik kontrolu tamamlandi, ilk 30 karakter:', repr(txt[:30]))
+          "
+
           # Capacitor kurulumu
           npm init -y
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
@@ -98,7 +109,7 @@ jobs:
             sed -i "s/versionName \"1.0\"/versionName \"1.0.$BUILD_NUM\"/g" "$GRADLE_FILE"
           fi
 
-          # AGP 8.13+ ve Capacitor 8 ile tam uyumlu Gradle 8.14.3-bin sürümü
+          # AGP 8.13+ ve Capacitor 8 ile %100 uyumlu Gradle 8.14.3-bin sürümü
           WRAPPER_PROP="android/gradle/wrapper/gradle-wrapper.properties"
           if [ -f "$WRAPPER_PROP" ]; then
             echo "Gradle wrapper URL resmi services.gradle.org 8.14.3-bin olarak ayarlaniyor..."
@@ -125,6 +136,8 @@ jobs:
                           settings.setDomStorageEnabled(true);
                           settings.setDatabaseEnabled(true);
                           settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+                          settings.setJavaScriptCanOpenWindowsAutomatically(true);
+                          settings.setSupportMultipleWindows(true);
                       }
                   } catch (Exception ignored) {}
               }
