@@ -20,9 +20,6 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
       - name: Set up Node.js 22
         uses: actions/setup-node@v4
         with:
@@ -50,10 +47,10 @@ jobs:
           npm init -y
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
 
-          # Eski/önceden kalmış android klasörü varsa senkronize et yoksa oluştur
+          # Android platformunu hazırla
           npx cap init "YKS Pro Tracker" "com.yksprotracker.app" --web-dir www
           if [ -d "android" ]; then
-            echo "Mevcut android klasoru tespit edildi, senkronize ediliyor..."
+            echo "Mevcut android platformu senkronize ediliyor..."
             npx cap sync android
           else
             echo "Yeni android platformu olusturuluyor..."
@@ -65,7 +62,7 @@ jobs:
           cp -f www/index.html android/app/src/main/assets/public/index.html
           echo "www/index.html basariyla android/app/src/main/assets/public/index.html icine yazildi."
 
-          # Uygulama ikonunu hazirla ve Android mipmap klasorlerine yerlestir
+          # Uygulama ikonunu hazirla ve Android klasorlerine yerlestir
           if [ -f "app_icon.png" ]; then
             echo "app_icon.png bulundu."
             cp -f "app_icon.png" icon_source.png
@@ -93,7 +90,7 @@ jobs:
             sed -i 's/android:allowBackup="false"/android:allowBackup="true"/g' "$MANIFEST"
           fi
 
-          # Her derlemede versionCode'u zaman damgasıyla artır (Telefonun önbelleği sıfırlanır)
+          # Her derlemede versionCode'u zaman damgasıyla artır (Telefon önbelleği sıfırlanır)
           BUILD_NUM=$(date +%s)
           GRADLE_FILE="android/app/build.gradle"
           if [ -f "$GRADLE_FILE" ]; then
@@ -101,11 +98,19 @@ jobs:
             sed -i "s/versionName \"1.0\"/versionName \"1.0.$BUILD_NUM\"/g" "$GRADLE_FILE"
           fi
 
-          # Gradle Wrapper indirme 504 Gateway Timeout hatasini onlemek icin daha hafif olan -bin.zip surumune cevir
+          # GRADLE 504 TIMEOUT ÇÖZÜMÜ: GitHub Releases yerine doğrudan CloudFront CDN aynasından indir
+          mkdir -p android/gradle/wrapper
+          echo "Gradle 8.11.1 CloudFront CDN uzerinden indiriliyor..."
+          curl -L --retry 5 --retry-delay 2 "https://downloads.gradle-dn.com/distributions/gradle-8.11.1-bin.zip" -o android/gradle/wrapper/gradle-8.11.1-bin.zip || \
+          curl -L --retry 5 --retry-delay 2 "https://mirrors.cloud.tencent.com/gradle/gradle-8.11.1-bin.zip" -o android/gradle/wrapper/gradle-8.11.1-bin.zip || true
+
           WRAPPER_PROP="android/gradle/wrapper/gradle-wrapper.properties"
-          if [ -f "$WRAPPER_PROP" ]; then
-            echo "Gradle wrapper ayarlari optimize ediliyor..."
-            sed -i 's/-all.zip/-bin.zip/g' "$WRAPPER_PROP"
+          if [ -f "android/gradle/wrapper/gradle-8.11.1-bin.zip" ] && [ -s "android/gradle/wrapper/gradle-8.11.1-bin.zip" ]; then
+            echo "Yerel Gradle zip basariyla indirildi, cevrimdisi yerel dosya baglaniyor..."
+            sed -i 's|distributionUrl=.*|distributionUrl=gradle-8.11.1-bin.zip|g' "$WRAPPER_PROP"
+          else
+            echo "Yerel indirme yapilamadi, dogrudan CloudFront CDN url'si baglaniyor..."
+            sed -i 's|distributionUrl=.*|distributionUrl=https\\://downloads.gradle-dn.com/distributions/gradle-8.11.1-bin.zip|g' "$WRAPPER_PROP"
           fi
 
           # Kalıcı yerel hafızayı Android WebView için zorunlu kıl
@@ -140,8 +145,7 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          # Otomatik 3 deneme döngüsü ile indirme kesintilerine karşı güvence
-          ./gradlew assembleDebug --no-daemon --stacktrace || (echo "Yeniden deneniyor (2/3)..." && sleep 5 && ./gradlew assembleDebug --no-daemon --stacktrace) || (echo "Yeniden deneniyor (3/3)..." && sleep 10 && ./gradlew assembleDebug --no-daemon --stacktrace)
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
