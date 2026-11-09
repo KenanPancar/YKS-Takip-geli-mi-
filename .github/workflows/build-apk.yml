@@ -98,18 +98,10 @@ jobs:
             sed -i "s/versionName \"1.0\"/versionName \"1.0.$BUILD_NUM\"/g" "$GRADLE_FILE"
           fi
 
-          # GRADLE 504 TIMEOUT ÇÖZÜMÜ: GitHub Releases yerine doğrudan CloudFront CDN aynasından indir
-          mkdir -p android/gradle/wrapper
-          echo "Gradle 8.11.1 CloudFront CDN uzerinden indiriliyor..."
-          curl -L --retry 5 --retry-delay 2 "https://downloads.gradle-dn.com/distributions/gradle-8.11.1-bin.zip" -o android/gradle/wrapper/gradle-8.11.1-bin.zip || \
-          curl -L --retry 5 --retry-delay 2 "https://mirrors.cloud.tencent.com/gradle/gradle-8.11.1-bin.zip" -o android/gradle/wrapper/gradle-8.11.1-bin.zip || true
-
+          # GRADLE 504 TIMEOUT KESİN ÇÖZÜMÜ: GitHub Releases yerine doğrudan resmi AWS CloudFront CDN aynasını kullan
           WRAPPER_PROP="android/gradle/wrapper/gradle-wrapper.properties"
-          if [ -f "android/gradle/wrapper/gradle-8.11.1-bin.zip" ] && [ -s "android/gradle/wrapper/gradle-8.11.1-bin.zip" ]; then
-            echo "Yerel Gradle zip basariyla indirildi, cevrimdisi yerel dosya baglaniyor..."
-            sed -i 's|distributionUrl=.*|distributionUrl=gradle-8.11.1-bin.zip|g' "$WRAPPER_PROP"
-          else
-            echo "Yerel indirme yapilamadi, dogrudan CloudFront CDN url'si baglaniyor..."
+          if [ -f "$WRAPPER_PROP" ]; then
+            echo "Gradle wrapper URL AWS CloudFront CDN olarak ayarlaniyor..."
             sed -i 's|distributionUrl=.*|distributionUrl=https\\://downloads.gradle-dn.com/distributions/gradle-8.11.1-bin.zip|g' "$WRAPPER_PROP"
           fi
 
