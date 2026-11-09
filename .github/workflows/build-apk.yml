@@ -20,6 +20,9 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Set up Node.js 22
         uses: actions/setup-node@v4
         with:
@@ -28,50 +31,84 @@ jobs:
       - name: Prepare Web Assets & Project
         run: |
           mkdir -p www
+          # Repo kökündeki en güncel HTML dosyasını www/index.html olarak kopyala
           if [ -f "index.html" ]; then
-            cp "index.html" www/index.html
+            cp -f "index.html" www/index.html
           elif [ -f "YKS_Pro_Tracker.html" ]; then
-            cp "YKS_Pro_Tracker.html" www/index.html
+            cp -f "YKS_Pro_Tracker.html" www/index.html
           else
             FIRST_HTML=$(ls *.html 2>/dev/null | head -n 1)
             if [ -n "$FIRST_HTML" ]; then
-              cp "$FIRST_HTML" www/index.html
+              cp -f "$FIRST_HTML" www/index.html
             else
-              echo "HATA: Depoda HTML bulunamadı!"
+              echo "HATA: Depoda hiçbir HTML dosyası bulunamadı! index.html dosyasını yükleyin."
               exit 1
             fi
           fi
 
+          # Capacitor kurulumu
           npm init -y
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
 
+          # Eski/önceden kalmış android klasörü varsa senkronize et yoksa oluştur
           npx cap init "YKS Pro Tracker" "com.yksprotracker.app" --web-dir www
-          npx cap add android
-
-          # İkonu hazırla (Depoda yoksa index.html içinden otomatik çıkartır)
-          if [ -f "app_icon.png" ]; then
-            cp "app_icon.png" icon_source.png
-          elif [ -f "icon.png" ]; then
-            cp "icon.png" icon_source.png
+          if [ -d "android" ]; then
+            echo "Mevcut android klasoru tespit edildi, senkronize ediliyor..."
+            npx cap sync android
           else
+            echo "Yeni android platformu olusturuluyor..."
+            npx cap add android
+          fi
+
+          # KESİN VE ZORUNLU KOPYALAMA: En güncel HTML dosyasını doğrudan Android assets klasörüne yaz
+          mkdir -p android/app/src/main/assets/public
+          cp -f www/index.html android/app/src/main/assets/public/index.html
+          echo "www/index.html basariyla android/app/src/main/assets/public/index.html icine yazildi."
+
+          # Uygulama ikonunu hazirla ve Android mipmap klasorlerine yerlestir
+          if [ -f "app_icon.png" ]; then
+            echo "app_icon.png bulundu."
+            cp -f "app_icon.png" icon_source.png
+          elif [ -f "icon.png" ]; then
+            echo "icon.png bulundu."
+            cp -f "icon.png" icon_source.png
+          else
+            echo "HTML dosyasindan gomulu ikon cikartiliyor..."
             python3 -c "import re, base64; c = open('www/index.html').read(); m = re.search(r'data:image/png;base64,([A-Za-z0-9+/=]+)', c); open('icon_source.png', 'wb').write(base64.b64decode(m.group(1))) if m else None"
           fi
 
           if [ -f "icon_source.png" ]; then
-            echo "İkon tüm Android klasörlerine uygulanıyor..."
+            echo "Android uygulama ikonu tum mipmap ve drawable klasorlerine kopyalaniyor..."
             find android/app/src/main/res/ -name "ic_launcher*.png" -exec cp -f "icon_source.png" {} \;
             find android/app/src/main/res/ -name "ic_launcher_round.png" -exec cp -f "icon_source.png" {} \;
             find android/app/src/main/res/ -name "ic_launcher_foreground.png" -exec cp -f "icon_source.png" {} \;
           fi
 
+          # Gerekli bildirim, titreşim ve internet izinlerini ekle
           MANIFEST="android/app/src/main/AndroidManifest.xml"
           if [ -f "$MANIFEST" ]; then
             if ! grep -q "POST_NOTIFICATIONS" "$MANIFEST"; then
-              sed -i '/<application/i \    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.VIBRATE" />\n    <uses-permission android:name="android.permission.WAKE_LOCK" />' "$MANIFEST"
+              sed -i '/<application/i \    <uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.VIBRATE" />\n    <uses-permission android:name="android.permission.WAKE_LOCK" />' "$MANIFEST"
             fi
             sed -i 's/android:allowBackup="false"/android:allowBackup="true"/g' "$MANIFEST"
           fi
 
+          # Her derlemede versionCode'u zaman damgasıyla artır (Telefonun önbelleği sıfırlanır)
+          BUILD_NUM=$(date +%s)
+          GRADLE_FILE="android/app/build.gradle"
+          if [ -f "$GRADLE_FILE" ]; then
+            sed -i "s/versionCode 1/versionCode $BUILD_NUM/g" "$GRADLE_FILE"
+            sed -i "s/versionName \"1.0\"/versionName \"1.0.$BUILD_NUM\"/g" "$GRADLE_FILE"
+          fi
+
+          # Gradle Wrapper indirme 504 Gateway Timeout hatasini onlemek icin daha hafif olan -bin.zip surumune cevir
+          WRAPPER_PROP="android/gradle/wrapper/gradle-wrapper.properties"
+          if [ -f "$WRAPPER_PROP" ]; then
+            echo "Gradle wrapper ayarlari optimize ediliyor..."
+            sed -i 's/-all.zip/-bin.zip/g' "$WRAPPER_PROP"
+          fi
+
+          # Kalıcı yerel hafızayı Android WebView için zorunlu kıl
           MAIN_ACTIVITY="android/app/src/main/java/com/yksprotracker/app/MainActivity.java"
           if [ -f "$MAIN_ACTIVITY" ]; then
             cat << 'JAVA' > "$MAIN_ACTIVITY"
@@ -90,6 +127,7 @@ jobs:
                           WebSettings settings = this.getBridge().getWebView().getSettings();
                           settings.setDomStorageEnabled(true);
                           settings.setDatabaseEnabled(true);
+                          settings.setCacheMode(WebSettings.LOAD_DEFAULT);
                       }
                   } catch (Exception ignored) {}
               }
@@ -102,7 +140,8 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          # Otomatik 3 deneme döngüsü ile indirme kesintilerine karşı güvence
+          ./gradlew assembleDebug --no-daemon --stacktrace || (echo "Yeniden deneniyor (2/3)..." && sleep 5 && ./gradlew assembleDebug --no-daemon --stacktrace) || (echo "Yeniden deneniyor (3/3)..." && sleep 10 && ./gradlew assembleDebug --no-daemon --stacktrace)
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
