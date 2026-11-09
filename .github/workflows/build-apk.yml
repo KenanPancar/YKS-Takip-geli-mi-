@@ -57,7 +57,7 @@ jobs:
             npx cap add android
           fi
 
-          # HTML dosyasını doğrudan Android assets klasörüne yaz
+          # KESİN VE ZORUNLU KOPYALAMA: En güncel HTML dosyasını doğrudan Android assets klasörüne yaz
           mkdir -p android/app/src/main/assets/public
           cp -f www/index.html android/app/src/main/assets/public/index.html
           echo "www/index.html basariyla android/app/src/main/assets/public/index.html icine yazildi."
